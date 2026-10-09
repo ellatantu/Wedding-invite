@@ -44,6 +44,14 @@ export const metadata = {
   title: "Tamirat & Megertu — October 24",
   description:
     "You're invited to the wedding of Tamirat Haile and Megertu Ayele, Saturday October 24, at East Ayat Apostolic Church.",
+  images: [
+  {
+    url: "/images/wedding-preview.jpg",
+    width: 1200,
+    height: 630,
+    alt: "Bride and groom wedding invitation",
+  },
+],
 };
 
 export default function RootLayout({ children }) {
