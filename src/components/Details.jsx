@@ -7,8 +7,6 @@ export default function Details() {
         </p>
         <p className="font-display text-4xl text-parchment sm:text-5xl">
           Saturday, October 24
-        </p>
-        <p className="font-display text-4xl text-parchment sm:text-5xl">
           Afternoon 8:00 LT
         </p>
       </div>
