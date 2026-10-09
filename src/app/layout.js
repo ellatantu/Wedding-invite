@@ -41,19 +41,32 @@ const tangerine = localFont({
 });
 
 export const metadata = {
-  title: "Tamirat & Megertu — October 24",
+  title: "Wedding Invitation | October 24",
   description:
-    "You're invited to the wedding of Tamirat Haile and Megertu Ayele, Saturday October 24, at East Ayat Apostolic Church.",
-  images: [
-  {
-    url: "/images/wedding-preview.jpg",
-    width: 1200,
-    height: 630,
-    alt: "Bride and groom wedding invitation",
+    "Join us to celebrate our wedding on Saturday, October 24, at East Ayat Apostolic Church, Addis Ababa.",
+  openGraph: {
+    title: "Wedding Invitation",
+    description:
+      "We warmly invite you to celebrate our special day.",
+    url: "https://wedding-invite-plum-rho.vercel.app",
+    siteName: "Wedding Invitation",
+    images: [
+      {
+        url: "https://wedding-invite-plum-rho.vercel.app/images/wedding-preview.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Bride and groom wedding invitation",
+      },
+    ],
+    type: "website",
   },
-],
+  twitter: {
+    card: "summary_large_image",
+    title: "Wedding Invitation",
+    description: "Join us to celebrate our special day.",
+    images: ["https://wedding-invite-plum-rho.vercel.app/images/wedding-preview.jpg"],
+  },
 };
-
 export default function RootLayout({ children }) {
   return (
     <html
