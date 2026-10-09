@@ -11,8 +11,8 @@ export const invite = {
   // timeNote) once the ceremony time is confirmed, e.g.
   // "2026-10-24T09:00:00+03:00" and timeNote: "Ceremony at 9:00 AM".
   date: { year: 2026, month: 10, day: 24, weekday: "Saturday" },
-  dateTimeISO: "2026-10-24T00:00:00+03:00",
-  timeNote: "Time to follow",
+  dateTimeISO: "2026-10-24T14:00:00+03:00",
+  timeNote: "Afternoon · 8:00 LT",
 
   venue: { name: "East Ayat Apostolic Church", city: "Addis Ababa" },
 
