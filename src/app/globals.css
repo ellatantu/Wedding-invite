@@ -1,0 +1,195 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------
+   Design tokens. Defining these inside @theme makes Tailwind
+   generate matching utilities automatically:
+   --color-ink      -> bg-ink / text-ink / border-ink
+   --color-parchment -> bg-parchment / text-parchment
+   --color-gold      -> bg-gold / text-gold / border-gold
+   --color-bottle    -> bg-bottle / text-bottle
+   --color-rose      -> bg-rose / text-rose
+   --font-display     -> font-display
+   --font-body        -> font-body
+   ------------------------------------------------------------- */
+@theme inline {
+  /* Green-cream palette. `ink` and `board` keep their old names so the
+     signboard (dark panel, light notes) recolors to deep green without
+     touching its code. */
+  --color-ink: #2f3d2b;         /* deep green: signboard section, dark surfaces */
+  --color-board: #435a39;       /* signboard panel */
+  --color-moss: #5a7347;        /* doors, calendar, ornaments */
+  --color-moss-deep: #2f4029;   /* body text on cream */
+  --color-cream: #f6f7e8;       /* page background */
+  --color-cream-warm: #fcf3e8;  /* cards and frames */
+  --color-parchment: #f3efe6;
+  --color-gold: #b8923f;
+  --color-gold-soft: #d8c091;
+  --color-gold-deep: #8f6a1f;   /* gold text on cream (readable) */
+  --color-bottle: #1f2e25;
+  --color-rose: #c9a4a0;
+
+  --font-display: var(--font-cormorant);
+  --font-body: var(--font-jost);
+  --font-ethiopic: var(--font-ethiopic);
+  --font-script: var(--font-tangerine);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Faint warm dot pattern across the whole page — the subtle "sparkle"
+   texture from the reference site, at low enough opacity that it reads
+   as cozy texture rather than visible dots. */
+body {
+  background-image: radial-gradient(
+    circle,
+    rgba(216, 192, 145, 0.06) 1px,
+    transparent 1px
+  );
+  background-size: 26px 26px;
+}
+
+/* Same idea, slightly stronger, for the signboard panel specifically —
+   it needs its own texture since it sits on a different background color. */
+.signboard-texture {
+  background-image: radial-gradient(
+    circle,
+    rgba(216, 192, 145, 0.1) 1.5px,
+    transparent 1.5px
+  );
+  background-size: 24px 24px;
+}
+
+/* Visible keyboard focus everywhere, styled to match the gold accent
+   instead of the browser default blue outline. */
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+/* Respect the user's motion preference: the opening-seal animation
+   and any scroll-reveal are skipped entirely rather than just sped up. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Countdown digits "tick" into place when their value changes (see
+   Countdown.jsx, which remounts the span via a changing `key`). */
+@keyframes tick {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-tick {
+  animation: tick 0.4s ease-out;
+}
+
+/* The signboard composer "zooms in" at the exact spot the guest tapped,
+   rather than just appearing. */
+@keyframes composer-in {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.4);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+.animate-composer-in {
+  animation: composer-in 0.25s ease-out;
+}
+
+/* Printing the signboard: hide everything else on the page and blow
+   the board up to fill the printed page, so "Print this board" gives
+   a clean keepsake instead of the whole site. */
+@media print {
+  /* One A4 page, zero margin. Zero margin also stops Chrome from
+     stamping its own date / page title / URL header and footer onto
+     the printout. */
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  /* Force backgrounds and colors to actually print. */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  html,
+  body {
+    height: auto !important;
+    min-height: 0 !important;
+    background: none !important;
+  }
+
+  /* Remove every section except the signboard from the print layout
+     entirely (display: none, not visibility: hidden). visibility: hidden
+     keeps the space, which is what turned the hero, verse, albums, etc.
+     into three blank pages before the board. */
+  main > section:not(.signboard-print-section) {
+    display: none !important;
+  }
+
+  main {
+    max-width: none !important;
+    box-shadow: none !important;
+    background: none !important;
+  }
+
+  .signboard-print-section {
+    padding: 0 !important;
+    background: none !important;
+  }
+
+  /* The board fills exactly one A4 page. 296mm rather than 297mm so
+     rounding can't spill a sliver onto a second page. */
+  .signboard-print-board {
+    width: 210mm !important;
+    height: 296mm !important;
+    max-width: none !important;
+    margin: 0 !important;
+    aspect-ratio: auto !important;
+    break-inside: avoid;
+    page-break-after: avoid;
+  }
+
+  [data-composer] {
+    display: none !important;
+  }
+}
+
+/* Thin gold hairline rule — the one recurring structural device
+   used between sections, instead of cards or drop shadows. */
+.door-texture {
+  background-color: var(--color-moss);
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0) 22%, rgba(0, 0, 0, 0) 78%, rgba(0, 0, 0, 0.18));
+  background-size: 6px 6px, 100% 100%;
+}
+
+.hairline {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-gold) 50%,
+    transparent
+  );
+}
